@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WallBusterBot Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+    }
+    .chatbox {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 400px;
+      max-width: 90%;
+      margin-top: 50px;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .message {
+      margin: 10px 0;
+    }
+    .bot {
+      background: #e1f5fe;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .user {
+      text-align: right;
+      background: #c8e6c9;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .input-area {
+      display: flex;
+      margin-top: 15px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background-color: #0077cc;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="chatbox" id="chat">
+    <div class="message bot">Hi! I’m <strong>WallBusterBot</strong>. Want to learn how we destroy bacterial walls?</div>
+  </div>
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button onclick="handleInput()">Send</button>
+  </div>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const userInput = document.getElementById("userInput");
+
+    let step = 0;
+
+    const responses = [
+      {
+        trigger: "yes",
+        reply: "Awesome! Do you know why bacterial cell walls are important?\na) They help bacteria fly\nb) They protect the bacteria and maintain shape\nc) They make bacteria taste better"
+      },
+      {
+        trigger: "b",
+        reply: "Correct! The cell wall prevents bacteria from bursting. Want to meet the antibiotics that destroy it?"
+      },
+      {
+        trigger: "yes",
+        reply: "Meet the Wall Busters!\n1. Beta-Lactams (e.g. penicillin) – Stop crosslinking of cell wall.\n2. Vancomycin – Binds to building blocks and blocks construction.\n3. Bacitracin – Blocks wall transport.\n4. Fosfomycin – Stops wall at the blueprint stage.\n\nWhich sounds coolest to you?"
+      },
+      {
+        trigger: "vancomycin",
+        reply: "Great choice! Vancomycin is powerful against Gram-positives.\nWant to know how bacteria fight back?"
+      },
+      {
+        trigger: "yes",
+        reply: "They mutate their targets, produce enzymes, or block drug entry. We fight back with smarter drug combos.\nWant a quick quiz to test your skills?"
+      },
+      {
+        trigger: "yes",
+        reply: "Quiz Time! What does penicillin block?\na) DNA replication\nb) Transpeptidase\nc) Ribosomes"
+      },
+      {
+        trigger: "b",
+        reply: "Correct! You're officially a certified Wall Buster!\nThanks for chatting with me!"
+      }
+    ];
+
+    function addMessage(text, sender) {
+      const msg = document.createElement("div");
+      msg.className = "message " + sender;
+      msg.innerText = text;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function handleInput() {
+      const input = userInput.value.trim().toLowerCase();
+      if (!input) return;
+
+      addMessage(userInput.value, "user");
+      userInput.value = "";
+
+      setTimeout(() => {
+        if (responses[step] && input.includes(responses[step].trigger)) {
+          addMessage(responses[step].reply, "bot");
+          step++;
+        } else {
+          addMessage("Hmm... I didn't get that. Try again!", "bot");
+        }
+      }, 600);
+    }
+  </script>
+</body>
+</html>
